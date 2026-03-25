@@ -59,16 +59,14 @@ nav.scrolled {
 .nav-logo {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: var(--white);
-  font-family: "Bebas Neue", sans-serif;
-  font-size: 1.8rem;
-  letter-spacing: 0.05em;
   text-decoration: none;
 }
 
-.nav-logo span {
-  color: var(--neon);
+.nav-logo-img {
+  display: block;
+  width: auto;
+  height: 72px;
+  object-fit: contain;
 }
 
 .nav-links {
@@ -506,7 +504,7 @@ section {
 
 .events-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
 }
 
@@ -551,7 +549,10 @@ section {
 }
 
 .event-bg-1 {
-  background: linear-gradient(135deg, #1a0533 0%, #0a1a3a 50%, #001a0a 100%);
+  background-image: url("Img/CARTELES-WEB-HORIZONTAL1.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .event-bg-2 {
@@ -968,18 +969,6 @@ footer {
   transition-delay: 0.3s;
 }
 
-.scanline {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(to right, transparent, rgba(0, 255, 178, 0.2), transparent);
-  pointer-events: none;
-  z-index: 9996;
-  animation: scanline 8s linear infinite;
-}
-
 .glitch {
   position: relative;
 }
@@ -1137,16 +1126,6 @@ footer {
   }
 }
 
-@keyframes scanline {
-  0% {
-    top: -2px;
-  }
-
-  100% {
-    top: 100vh;
-  }
-}
-
 @keyframes glitch1 {
   0%, 85%, 100% {
     opacity: 0;
@@ -1178,6 +1157,10 @@ footer {
 @media (max-width: 1024px) {
   nav {
     padding: 1rem 2rem;
+  }
+
+  .nav-logo-img {
+    height: 60px;
   }
 
   section,
@@ -1222,6 +1205,10 @@ footer {
     display: none;
   }
 
+  .nav-logo-img {
+    height: 52px;
+  }
+
   .events-grid,
   .services-grid,
   .about-stats,
@@ -1242,8 +1229,7 @@ footer {
   }
 
   .partners-track::before,
-  .partners-track::after,
-  .scanline {
+  .partners-track::after {
     display: none;
   }
 
