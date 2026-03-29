@@ -1,23 +1,40 @@
 const navbar = document.getElementById("navbar");
 const particlesContainer = document.getElementById("particles");
 const reveals = document.querySelectorAll(".reveal");
+const heroLogo = document.getElementById("hero-logo");
+const tetriminoShapes = ["shape-i", "shape-o", "shape-t", "shape-l", "shape-z"];
+const tetriminoColors = ["#ff8a00", "#ff5e5b", "#4db6ff", "#8a7dff", "#ff9ed6"];
 
 if (navbar) {
-  window.addEventListener("scroll", () => {
+  const updateNavbarState = () => {
     navbar.classList.toggle("scrolled", window.scrollY > 50);
-  });
+
+    if (!heroLogo) {
+      return;
+    }
+
+    const logoBottom = heroLogo.getBoundingClientRect().bottom;
+    const navBottom = navbar.getBoundingClientRect().bottom;
+    document.body.classList.toggle("logo-docked", logoBottom <= navBottom + 12);
+  };
+
+  window.addEventListener("scroll", updateNavbarState);
+  window.addEventListener("resize", updateNavbarState);
+  updateNavbarState();
 }
 
 if (particlesContainer) {
-  for (let index = 0; index < 30; index += 1) {
+  for (let index = 0; index < 14; index += 1) {
     const particle = document.createElement("div");
     particle.classList.add("particle");
+    particle.classList.add(tetriminoShapes[Math.floor(Math.random() * tetriminoShapes.length)]);
     particle.style.left = `${Math.random() * 100}%`;
     particle.style.animationDuration = `${Math.random() * 15 + 8}s`;
     particle.style.animationDelay = `${Math.random() * 10}s`;
     particle.style.setProperty("--drift", `${Math.random() * 100 - 50}px`);
-    particle.style.width = `${Math.random() * 3 + 1}px`;
-    particle.style.height = particle.style.width;
+    particle.style.setProperty("--piece-size", `${Math.random() * 8 + 10}px`);
+    particle.style.setProperty("--piece-rotation", `${Math.floor(Math.random() * 4) * 90}deg`);
+    particle.style.setProperty("--particle-color", tetriminoColors[Math.floor(Math.random() * tetriminoColors.length)]);
     particlesContainer.appendChild(particle);
   }
 }
