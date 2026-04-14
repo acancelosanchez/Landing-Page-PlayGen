@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="Style.css">
 </head>
 <body>
+  <!-- Barra de navegación fija para moverse entre secciones de la landing -->
   <nav id="navbar">
     <a href="#hero" class="nav-brand" aria-label="Play Generation">
       <img src="Img/PACO 3.1.png" alt="Play Generation" class="nav-brand-logo">
@@ -27,16 +28,20 @@
     </ul>
   </nav>
 
+  <!-- Sección principal de impacto visual con logo, mensaje principal y llamadas a la acción -->
   <section id="hero">
+    <!-- Capas decorativas del fondo animado del hero -->
     <div class="hero-grid"></div>
     <div class="hero-glow"></div>
     <div class="particles" id="particles"></div>
 
+    <!-- Etiqueta superior que resume la temática de la marca -->
     <div class="hero-badge">
       <div class="badge-dot"></div>
       Eventos Gaming · Esports · Tech · España
     </div>
 
+    <!-- Grupo visual que combina el logotipo y el título principal -->
     <div class="hero-title-group">
       <img src="Img/PACO 3.1.png" alt="Play Generation" class="hero-logo-img" id="hero-logo">
       <h1>
@@ -51,16 +56,19 @@
       sin límites.
     </p>
 
+    <!-- Botones principales para llevar al usuario a las secciones más importantes -->
     <div class="hero-buttons">
       <a href="#events" class="btn-primary">Ver Próximos Eventos</a>
       <a href="#about" class="btn-secondary">Nuestra Historia</a>
     </div>
 
+    <!-- Indicador visual para invitar a hacer scroll -->
     <div class="hero-scroll">
       <div class="scroll-line"></div>
     </div>
   </section>
 
+  <!-- Cinta horizontal con textos en movimiento para reforzar datos clave de la marca -->
   <div class="ticker-wrap">
     <div class="ticker">
       <span class="ticker-item">+150 Eventos</span>
@@ -90,6 +98,7 @@
     </div>
   </div>
 
+  <!-- Sección informativa sobre la empresa y sus cifras principales -->
   <section id="about">
     <div class="about-text reveal">
       <div class="section-label">Quiénes somos</div>
@@ -125,6 +134,7 @@
     </div>
   </section>
 
+  <!-- Sección de eventos destacados y próximos lanzamientos -->
   <section id="events-section">
     <div id="events">
       <div class="section-label reveal">Próximos eventos</div>
@@ -193,6 +203,7 @@
     </div>
   </section>
 
+  <!-- Sección de servicios ofrecidos por la empresa -->
   <section id="services">
     <div class="section-label section-label-center reveal">Lo que hacemos</div>
     <h2 class="section-title section-title-center reveal">Experiencias<br>que importan</h2>
@@ -225,6 +236,7 @@
     </div>
   </section>
 
+  <!-- Sección de partners con desplazamiento horizontal continuo -->
   <section id="partners-section">
     <div id="partners">
       <div class="partners-header">
@@ -261,6 +273,7 @@
     </div>
   </section>
 
+  <!-- Llamada a la acción final para redirigir al contacto -->
   <section id="cta">
     <div class="cta-inner">
       <div class="section-label section-label-center reveal">¿Listo para jugar?</div>
@@ -273,6 +286,7 @@
     </div>
   </section>
 
+  <!-- Pie de página con resumen de marca, enlaces y redes sociales -->
   <footer>
     <div class="footer-inner">
       <div class="footer-brand">
@@ -326,6 +340,7 @@
     </div>
   </footer>
 
+  <!-- Archivo JavaScript que controla animaciones y efectos al hacer scroll -->
   <script src="Animation.js"></script>
 </body>
 </html>

@@ -1,11 +1,16 @@
+// Referencias a elementos del DOM que se usan en las animaciones y efectos dinámicos.
 const navbar = document.getElementById("navbar");
 const particlesContainer = document.getElementById("particles");
 const reveals = document.querySelectorAll(".reveal");
 const heroLogo = document.getElementById("hero-logo");
+
+// Catálogo de formas y colores para generar partículas con estilo retro.
 const tetriminoShapes = ["shape-i", "shape-o", "shape-t", "shape-l", "shape-z"];
 const tetriminoColors = ["#ff8a00", "#ff5e5b", "#4db6ff", "#8a7dff", "#ff9ed6"];
 
 if (navbar) {
+  // Cambia el aspecto del navbar al hacer scroll y muestra el logo del menú
+  // cuando el logo grande del hero ya ha quedado oculto por la navegación.
   const updateNavbarState = () => {
     navbar.classList.toggle("scrolled", window.scrollY > 50);
 
@@ -24,6 +29,7 @@ if (navbar) {
 }
 
 if (particlesContainer) {
+  // Crea partículas flotantes aleatorias para dar movimiento al fondo del hero.
   for (let index = 0; index < 14; index += 1) {
     const particle = document.createElement("div");
     particle.classList.add("particle");
@@ -40,6 +46,7 @@ if (particlesContainer) {
 }
 
 if (reveals.length > 0) {
+  // Hace visibles los elementos con animación cuando entran en pantalla.
   const revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -56,6 +63,7 @@ if (reveals.length > 0) {
   reveals.forEach((element) => revealObserver.observe(element));
 }
 
+// Anima números contadores incrementándolos progresivamente hasta su valor final.
 const animateCounter = (element) => {
   const original = element.textContent.trim();
   const match = original.match(/^(\D*)(\d+)(.*)$/);
@@ -84,6 +92,7 @@ const animateCounter = (element) => {
 const aboutStats = document.querySelector(".about-stats");
 
 if (aboutStats) {
+  // Lanza la animación de estadísticas solo la primera vez que la sección aparece.
   const statObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
