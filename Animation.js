@@ -3,6 +3,9 @@ const navbar = document.getElementById("navbar");
 const particlesContainer = document.getElementById("particles");
 const reveals = document.querySelectorAll(".reveal");
 const heroLogo = document.getElementById("hero-logo");
+const navMenuItem = document.querySelector(".nav-contact-item");
+const navMenuToggle = document.querySelector(".nav-menu-toggle");
+const navMenuLinks = document.querySelectorAll(".nav-contact-menu a");
 
 // Catálogo de formas y colores para generar partículas con estilo retro.
 const tetriminoShapes = ["shape-i", "shape-o", "shape-t", "shape-l", "shape-z"];
@@ -26,6 +29,36 @@ if (navbar) {
   window.addEventListener("scroll", updateNavbarState);
   window.addEventListener("resize", updateNavbarState);
   updateNavbarState();
+}
+
+if (navMenuItem && navMenuToggle) {
+  const closeNavMenu = () => {
+    navMenuItem.classList.remove("menu-open");
+    navMenuToggle.setAttribute("aria-expanded", "false");
+  };
+
+  navMenuToggle.addEventListener("click", () => {
+    const isOpen = navMenuItem.classList.toggle("menu-open");
+    navMenuToggle.setAttribute("aria-expanded", String(isOpen));
+  });
+
+  document.addEventListener("click", (event) => {
+    if (navMenuItem.contains(event.target)) {
+      return;
+    }
+
+    closeNavMenu();
+  });
+
+  navMenuLinks.forEach((link) => {
+    link.addEventListener("click", closeNavMenu);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeNavMenu();
+    }
+  });
 }
 
 if (particlesContainer) {

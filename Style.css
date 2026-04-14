@@ -22,6 +22,12 @@ html {
   scroll-behavior: smooth;
 }
 
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
 /* Estilos generales de la página: fondo, tipografía principal y control de desbordes. */
 body {
   background: var(--dark);
@@ -90,6 +96,7 @@ body.logo-docked .nav-brand {
   display: flex;
   gap: 2.5rem;
   list-style: none;
+  align-items: center;
 }
 
 .nav-links a {
@@ -123,6 +130,8 @@ body.logo-docked .nav-brand {
 }
 
 .nav-cta {
+  border: 0;
+  cursor: pointer;
   background: var(--neon);
   color: var(--dark) !important;
   padding: 0.6rem 1.4rem;
@@ -139,6 +148,92 @@ body.logo-docked .nav-brand {
 
 .nav-cta::after {
   display: none !important;
+}
+
+.nav-contact-item {
+  position: relative;
+}
+
+.nav-menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  font-family: inherit;
+}
+
+.nav-menu-icon {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 16px;
+}
+
+.nav-menu-icon span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.nav-contact-item.menu-open .nav-menu-icon span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.nav-contact-item.menu-open .nav-menu-icon span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-contact-item.menu-open .nav-menu-icon span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.nav-contact-menu {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  transform: translate(-56px, -50%);
+  min-width: max-content;
+  padding: 0.45rem;
+  list-style: none;
+  background: rgba(10, 10, 18, 0.96);
+  border: 1px solid rgba(0, 255, 178, 0.18);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(14px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+}
+
+.nav-contact-item.menu-open .nav-contact-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-72px, -50%);
+  pointer-events: auto;
+}
+
+.nav-contact-menu a {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: var(--white);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  border-radius: 2px;
+}
+
+.nav-contact-menu a:hover {
+  background: rgba(0, 255, 178, 0.08);
+  color: var(--neon);
+}
+
+.nav-contact-menu a::after {
+  display: none;
 }
 
 /* Hero principal con capas animadas, tipografía grande y botones destacados. */
@@ -741,6 +836,127 @@ section {
   padding: 8rem 4rem;
 }
 
+.services-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16rem;
+  padding-bottom: 18rem;
+}
+
+.service-stack-card {
+  position: sticky;
+  top: 7.5rem;
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: center;
+  min-height: 72vh;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    radial-gradient(circle at top left, rgba(0, 255, 178, 0.12), transparent 35%),
+    linear-gradient(135deg, rgba(16, 16, 28, 0.98), rgba(10, 10, 18, 0.98));
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+}
+
+.service-stack-card:nth-child(2) {
+  top: 9rem;
+}
+
+.service-stack-card:nth-child(3) {
+  top: 10.5rem;
+}
+
+.service-stack-card:nth-child(4) {
+  top: 12rem;
+}
+
+.service-stack-copy {
+  max-width: 320px;
+}
+
+.service-stack-index {
+  display: inline-block;
+  margin-bottom: 1.2rem;
+  color: rgba(0, 255, 178, 0.55);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+}
+
+.service-stack-copy h3 {
+  margin-bottom: 1rem;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(2rem, 3.4vw, 3.5rem);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+}
+
+.service-stack-copy p {
+  color: var(--gray);
+  font-size: 0.98rem;
+  line-height: 1.8;
+}
+
+.service-stack-visual {
+  min-height: 56vh;
+}
+
+.service-stack-media {
+  position: relative;
+  width: 100%;
+  min-height: 56vh;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(135deg, rgba(0, 255, 178, 0.08), rgba(123, 47, 255, 0.08));
+}
+
+.service-stack-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.service-stack-media:has(img) {
+  background: transparent;
+}
+
+.service-stack-media:has(img) .media-placeholder::before,
+.service-stack-media:has(img) span {
+  display: none;
+}
+
+.media-placeholder {
+  background:
+    linear-gradient(rgba(240, 240, 248, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240, 240, 248, 0.06) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(0, 255, 178, 0.12), rgba(123, 47, 255, 0.12));
+  background-size: 28px 28px, 28px 28px, auto;
+}
+
+.media-placeholder::before {
+  content: "";
+  position: absolute;
+  inset: 1rem;
+  border: 1px dashed rgba(240, 240, 248, 0.25);
+}
+
+.media-placeholder span {
+  position: relative;
+  z-index: 1;
+  padding: 0.9rem 1.2rem;
+  border: 1px solid rgba(0, 255, 178, 0.22);
+  background: rgba(5, 5, 8, 0.72);
+  color: var(--white);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 .services-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1299,6 +1515,29 @@ footer {
     grid-template-columns: 1fr 1fr;
   }
 
+  .services-stack {
+    gap: 10rem;
+    padding-bottom: 12rem;
+  }
+
+  .service-stack-card,
+  .service-stack-card:nth-child(2),
+  .service-stack-card:nth-child(3),
+  .service-stack-card:nth-child(4) {
+    top: 7rem;
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .service-stack-copy {
+    max-width: none;
+  }
+
+  .service-stack-visual,
+  .service-stack-media {
+    min-height: 44vh;
+  }
+
   .footer-inner {
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
@@ -1308,6 +1547,28 @@ footer {
 /* Ajustes para móvil: simplifica la navegación y apila los bloques. */
 @media (max-width: 640px) {
   .nav-links {
+    display: flex;
+    gap: 0;
+    margin-left: auto;
+  }
+
+  .nav-links > li:not(.nav-contact-item) {
+    display: none;
+  }
+
+  .nav-contact-menu {
+    right: 0;
+    max-width: calc(100vw - 5rem);
+    overflow-x: auto;
+    transform: translate(-24px, -50%);
+    scrollbar-width: none;
+  }
+
+  .nav-contact-item.menu-open .nav-contact-menu {
+    transform: translate(-36px, -50%);
+  }
+
+  .nav-contact-menu::-webkit-scrollbar {
     display: none;
   }
 
@@ -1336,6 +1597,31 @@ footer {
   .footer-inner,
   .footer-bottom {
     grid-template-columns: 1fr;
+  }
+
+  .services-stack {
+    gap: 6rem;
+    padding-bottom: 7rem;
+  }
+
+  .service-stack-card,
+  .service-stack-card:nth-child(2),
+  .service-stack-card:nth-child(3),
+  .service-stack-card:nth-child(4) {
+    position: relative;
+    top: auto;
+    padding: 1.2rem;
+  }
+
+  .service-stack-visual,
+  .service-stack-media {
+    min-height: 32vh;
+  }
+
+  .media-placeholder span {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-align: center;
   }
 
   .event-card:first-child {
