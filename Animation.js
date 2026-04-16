@@ -6,6 +6,10 @@ const heroLogo = document.getElementById("hero-logo");
 const navMenuItem = document.querySelector(".nav-contact-item");
 const navMenuToggle = document.querySelector(".nav-menu-toggle");
 const navMenuLinks = document.querySelectorAll(".nav-contact-menu a");
+const navIdentifyItem = document.querySelector(".nav-identify-item");
+const navIdentifyButton = document.querySelector(".nav-identify-button");
+const navIdentifyForm = document.getElementById("nav-identify-panel");
+const navIdentifyStatus = document.getElementById("nav-identify-status");
 
 // Catálogo de formas y colores para generar partículas con estilo retro.
 const tetriminoShapes = ["shape-i", "shape-o", "shape-t", "shape-l", "shape-z"];
@@ -57,6 +61,90 @@ if (navMenuItem && navMenuToggle) {
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       closeNavMenu();
+    }
+  });
+}
+
+if (navIdentifyItem && navIdentifyButton) {
+  const closeIdentifyPanel = () => {
+    navIdentifyItem.classList.remove("form-open");
+    navIdentifyButton.setAttribute("aria-expanded", "false");
+  };
+
+  navIdentifyButton.addEventListener("click", () => {
+    const isOpen = navIdentifyItem.classList.toggle("form-open");
+    navIdentifyButton.setAttribute("aria-expanded", String(isOpen));
+  });
+
+  document.addEventListener("click", (event) => {
+    if (navIdentifyItem.contains(event.target)) {
+      return;
+    }
+
+    closeIdentifyPanel();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeIdentifyPanel();
+    }
+  });
+}
+
+if (navIdentifyForm && navIdentifyStatus) {
+  const setIdentifyStatus = (message, type = "") => {
+    navIdentifyStatus.textContent = message;
+    navIdentifyStatus.classList.remove("is-error", "is-success");
+
+    if (type) {
+      navIdentifyStatus.classList.add(type);
+    }
+  };
+
+  navIdentifyForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(navIdentifyForm);
+    const email = String(formData.get("email") || "").trim();
+    const password = String(formData.get("password") || "").trim();
+    const submitButton = navIdentifyForm.querySelector(".nav-identify-submit");
+
+    if (!email || !password) {
+      setIdentifyStatus("Introduce un correo y una contrasena validos.", "is-error");
+      return;
+    }
+
+    setIdentifyStatus("Guardando datos...", "");
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Enviando...";
+    }
+
+    try {
+      const response = await fetch("/api/identify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "No se pudieron guardar los datos.");
+      }
+
+      setIdentifyStatus("Datos guardados correctamente.", "is-success");
+      navIdentifyForm.reset();
+    } catch (error) {
+      setIdentifyStatus(error.message || "Ha ocurrido un error al guardar los datos.", "is-error");
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = "Entrar";
+      }
     }
   });
 }

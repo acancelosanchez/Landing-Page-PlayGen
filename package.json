@@ -1,0 +1,26 @@
+{
+  "name": "landing-page2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Sin pruebas automáticas configuradas\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acancelosanchez/Landing-Page-PlayGen.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/acancelosanchez/Landing-Page-PlayGen/issues"
+  },
+  "homepage": "https://github.com/acancelosanchez/Landing-Page-PlayGen#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  }
+}

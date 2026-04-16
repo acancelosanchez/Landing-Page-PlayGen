@@ -70,13 +70,25 @@ nav.scrolled {
 
 /* Logo oculto inicialmente que aparece cuando el usuario deja atrás el hero. */
 .nav-brand {
-  position: absolute;
-  left: 4rem;
-  top: 50%;
-  transform: translateY(-50%) scale(0.85);
+  position: relative;
+  transform: scale(0.85);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.nav-brand-group {
+  position: absolute;
+  left: 4rem;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  transform: translateY(-50%);
+}
+
+.nav-identify-item {
+  position: relative;
 }
 
 .nav-brand-logo {
@@ -89,7 +101,111 @@ nav.scrolled {
 body.logo-docked .nav-brand {
   opacity: 1;
   pointer-events: auto;
-  transform: translateY(-50%) scale(1);
+  transform: scale(1);
+}
+
+.nav-identify-button {
+  text-decoration: none;
+  transform: scale(1);
+  transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s !important;
+}
+
+body.logo-docked .nav-identify-button {
+  transform: scale(1);
+}
+
+.nav-identify-panel {
+  position: absolute;
+  top: calc(100% + 0.85rem);
+  left: 0;
+  display: grid;
+  gap: 0.9rem;
+  min-width: 18rem;
+  padding: 1rem;
+  background: rgba(10, 10, 18, 0.96);
+  border: 1px solid rgba(0, 255, 178, 0.18);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(14px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+}
+
+.nav-identify-item.form-open .nav-identify-panel {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.nav-identify-field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.nav-identify-field span {
+  color: var(--neon);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.nav-identify-field input {
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(5, 5, 8, 0.95);
+  color: var(--white);
+  font-family: inherit;
+  font-size: 0.92rem;
+}
+
+.nav-identify-field input:focus {
+  outline: none;
+  border-color: rgba(0, 255, 178, 0.5);
+  box-shadow: 0 0 0 3px rgba(0, 255, 178, 0.08);
+}
+
+.nav-identify-field input::placeholder {
+  color: rgba(136, 136, 170, 0.8);
+}
+
+.nav-identify-submit {
+  border: 0;
+  cursor: pointer;
+  padding: 0.85rem 1rem;
+  background: var(--neon);
+  color: var(--dark);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.nav-identify-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 20px rgba(0, 255, 178, 0.35);
+}
+
+.nav-identify-status {
+  min-height: 1rem;
+  margin: 0;
+  color: var(--gray);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.nav-identify-status.is-error {
+  color: #ff7f7f;
+}
+
+.nav-identify-status.is-success {
+  color: var(--neon);
 }
 
 .nav-links {
@@ -1467,6 +1583,7 @@ footer {
     padding: 1rem 2rem;
   }
 
+  .nav-brand-group,
   .nav-brand {
     left: 2rem;
   }
@@ -1545,9 +1662,46 @@ footer {
 }
 
 /* Ajustes para móvil: simplifica la navegación y apila los bloques. */
+@media (max-width: 900px) {
+  .nav-links {
+    gap: 0;
+    margin-left: auto;
+  }
+
+  .nav-brand-group {
+    gap: 0.6rem;
+  }
+
+  .nav-identify-button {
+    padding: 0.55rem 1rem;
+    font-size: 0.72rem;
+  }
+
+  .nav-identify-panel {
+    min-width: min(16rem, calc(100vw - 4rem));
+  }
+
+  .nav-contact-menu {
+    top: calc(100% + 0.85rem);
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    min-width: min(14rem, calc(100vw - 4rem));
+    max-width: calc(100vw - 4rem);
+    transform: translateY(-8px);
+  }
+
+  .nav-contact-item.menu-open .nav-contact-menu {
+    transform: translateY(0);
+  }
+
+  .nav-contact-menu a {
+    width: 100%;
+  }
+}
+
 @media (max-width: 640px) {
   .nav-links {
-    display: flex;
     gap: 0;
     margin-left: auto;
   }
@@ -1557,27 +1711,36 @@ footer {
   }
 
   .nav-contact-menu {
-    right: 0;
-    max-width: calc(100vw - 5rem);
-    overflow-x: auto;
-    transform: translate(-24px, -50%);
-    scrollbar-width: none;
+    min-width: min(12.5rem, calc(100vw - 2.5rem));
+    max-width: calc(100vw - 2.5rem);
   }
 
   .nav-contact-item.menu-open .nav-contact-menu {
-    transform: translate(-36px, -50%);
+    transform: translateY(0);
   }
 
   .nav-contact-menu::-webkit-scrollbar {
     display: none;
   }
 
+  .nav-brand-group,
   .nav-brand {
     left: 1.25rem;
   }
 
   .nav-brand-logo {
     height: 42px;
+  }
+
+  .nav-identify-button {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+  }
+
+  .nav-identify-panel {
+    left: 0;
+    min-width: min(14rem, calc(100vw - 2.5rem));
   }
 
   .hero-title-group {

@@ -16,9 +16,33 @@
 <body>
   <!-- Barra de navegación fija para moverse entre secciones de la landing -->
   <nav id="navbar">
-    <a href="#hero" class="nav-brand" aria-label="Play Generation">
-      <img src="Img/PACO 3.1.png" alt="Play Generation" class="nav-brand-logo">
-    </a>
+    <div class="nav-brand-group">
+      <div class="nav-identify-item">
+        <button
+          type="button"
+          class="nav-cta nav-identify-button"
+          aria-expanded="false"
+          aria-controls="nav-identify-panel"
+        >
+          Identificate
+        </button>
+        <form class="nav-identify-panel" id="nav-identify-panel">
+          <label class="nav-identify-field">
+            <span>Correo</span>
+            <input type="email" name="email" placeholder="tu@email.com" autocomplete="email" required>
+          </label>
+          <label class="nav-identify-field">
+            <span>Contraseña</span>
+            <input type="password" name="password" placeholder="******" autocomplete="current-password" required minlength="4">
+          </label>
+          <button type="submit" class="nav-identify-submit">Entrar</button>
+          <p class="nav-identify-status" id="nav-identify-status" aria-live="polite"></p>
+        </form>
+      </div>
+      <a href="#hero" class="nav-brand" aria-label="Play Generation">
+        <img src="Img/PACO 3.1.png" alt="Play Generation" class="nav-brand-logo">
+      </a>
+    </div>
     <ul class="nav-links">
       <li class="nav-contact-item">
         <button
