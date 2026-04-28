@@ -973,7 +973,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: 16rem;
-  padding-bottom: 18rem;
+  padding-bottom: 4rem;
 }
 
 .service-stack-card {
@@ -1651,7 +1651,7 @@ footer {
 
   .services-stack {
     gap: 10rem;
-    padding-bottom: 12rem;
+    padding-bottom: 2rem;
   }
 
   .service-stack-card,
@@ -1781,7 +1781,7 @@ footer {
 
   .services-stack {
     gap: 6rem;
-    padding-bottom: 7rem;
+    padding-bottom: 0;
   }
 
   .service-stack-card,
