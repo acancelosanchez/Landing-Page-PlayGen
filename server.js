@@ -42,53 +42,84 @@ const writeCredentials = async (credentials) => {
 const hashPassword = (password) =>
   crypto.createHash("sha256").update(password).digest("hex");
 
-app.post("/api/identify", async (req, res) => {
+const getValidatedCredentials = (body) => {
+  const email = String(body?.email || "").trim().toLowerCase();
+  const password = String(body?.password || "").trim();
+
+  if (!email || !password) {
+    return { message: "El correo y la contrasena son obligatorios." };
+  }
+
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailPattern.test(email)) {
+    return { message: "El correo no tiene un formato valido." };
+  }
+
+  if (password.length < 4) {
+    return { message: "La contrasena debe tener al menos 4 caracteres." };
+  }
+
+  return { email, password };
+};
+
+app.post("/api/register", async (req, res) => {
   try {
-    const email = String(req.body?.email || "").trim().toLowerCase();
-    const password = String(req.body?.password || "").trim();
+    const { email, password, message } = getValidatedCredentials(req.body);
 
-    if (!email || !password) {
-      return res.status(400).json({ message: "El correo y la contrasena son obligatorios." });
-    }
-
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailPattern.test(email)) {
-      return res.status(400).json({ message: "El correo no tiene un formato valido." });
-    }
-
-    if (password.length < 4) {
-      return res.status(400).json({ message: "La contrasena debe tener al menos 4 caracteres." });
+    if (message) {
+      return res.status(400).json({ message });
     }
 
     const credentials = await readCredentials();
-    const existingUserIndex = credentials.findIndex((user) => user.email === email);
+    const existingUser = credentials.find((user) => user.email === email);
+
+    if (existingUser) {
+      return res.status(409).json({ message: "Ya existe una cuenta con ese correo." });
+    }
+
     const timestamp = new Date().toISOString();
-    const userRecord = {
+
+    credentials.push({
+      id: crypto.randomUUID(),
       email,
       passwordHash: hashPassword(password),
+      createdAt: timestamp,
       updatedAt: timestamp,
-    };
-
-    if (existingUserIndex >= 0) {
-      credentials[existingUserIndex] = {
-        ...credentials[existingUserIndex],
-        ...userRecord,
-      };
-    } else {
-      credentials.push({
-        id: crypto.randomUUID(),
-        createdAt: timestamp,
-        ...userRecord,
-      });
-    }
+    });
 
     await writeCredentials(credentials);
 
-    return res.status(201).json({ message: "Datos guardados correctamente." });
+    return res.status(201).json({ message: "Registro completado correctamente." });
   } catch (error) {
-    console.error("Error al guardar las credenciales:", error);
+    console.error("Error al registrar el usuario:", error);
     return res.status(500).json({ message: "No se pudieron guardar los datos en la base de datos." });
+  }
+});
+
+app.post("/api/login", async (req, res) => {
+  try {
+    const { email, password, message } = getValidatedCredentials(req.body);
+
+    if (message) {
+      return res.status(400).json({ message });
+    }
+
+    const credentials = await readCredentials();
+    const existingUser = credentials.find((user) => user.email === email);
+
+    if (!existingUser) {
+      return res.status(401).json({ message: "No existe ninguna cuenta con ese correo." });
+    }
+
+    if (existingUser.passwordHash !== hashPassword(password)) {
+      return res.status(401).json({ message: "La contrasena es incorrecta." });
+    }
+
+    return res.status(200).json({ message: "Inicio de sesion correcto." });
+  } catch (error) {
+    console.error("Error al iniciar sesion:", error);
+    return res.status(500).json({ message: "No se pudo completar el inicio de sesion." });
   }
 });
 

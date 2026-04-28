@@ -35,13 +35,15 @@
             <span>Contraseña</span>
             <input type="password" name="password" placeholder="******" autocomplete="current-password" required minlength="4">
           </label>
-          <button type="submit" class="nav-identify-submit">Entrar</button>
+          <button type="submit" class="nav-identify-submit" name="action" value="login">Entrar</button>
+          <button type="submit" class="nav-identify-submit" name="action" value="register">Registrarme</button>
           <p class="nav-identify-status" id="nav-identify-status" aria-live="polite"></p>
         </form>
       </div>
       <a href="#hero" class="nav-brand" aria-label="Play Generation">
         <img src="Img/PACO 3.1.png" alt="Play Generation" class="nav-brand-logo">
       </a>
+      <p class="nav-user-display" id="nav-user-display" aria-live="polite" hidden></p>
     </div>
     <ul class="nav-links">
       <li class="nav-contact-item">

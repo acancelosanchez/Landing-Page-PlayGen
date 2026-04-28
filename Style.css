@@ -98,6 +98,23 @@ nav.scrolled {
   object-fit: contain;
 }
 
+.nav-user-display {
+  color: #ffffff;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-shadow: 0 0 18px rgba(0, 255, 178, 0.18);
+  white-space: nowrap;
+  max-width: min(32vw, 18rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-user-display[hidden] {
+  display: none;
+}
+
 body.logo-docked .nav-brand {
   opacity: 1;
   pointer-events: auto;

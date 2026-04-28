@@ -10,6 +10,31 @@ const navIdentifyItem = document.querySelector(".nav-identify-item");
 const navIdentifyButton = document.querySelector(".nav-identify-button");
 const navIdentifyForm = document.getElementById("nav-identify-panel");
 const navIdentifyStatus = document.getElementById("nav-identify-status");
+const navUserDisplay = document.getElementById("nav-user-display");
+const apiBaseUrl =
+  window.location.protocol === "file:" ? "http://localhost:3000" : window.location.origin;
+const sessionStorageKey = "playgenLoggedUser";
+
+const updateLoggedUserDisplay = (email = "") => {
+  if (!navUserDisplay) {
+    return;
+  }
+
+  const normalizedEmail = String(email || "").trim().toLowerCase();
+
+  if (!normalizedEmail) {
+    navUserDisplay.textContent = "";
+    navUserDisplay.hidden = true;
+    document.body.classList.remove("has-logged-user");
+    return;
+  }
+
+  navUserDisplay.textContent = normalizedEmail;
+  navUserDisplay.hidden = false;
+  document.body.classList.add("has-logged-user");
+};
+
+updateLoggedUserDisplay(window.localStorage.getItem(sessionStorageKey));
 
 // Catálogo de formas y colores para generar partículas con estilo retro.
 const tetriminoShapes = ["shape-i", "shape-o", "shape-t", "shape-l", "shape-z"];
@@ -107,22 +132,38 @@ if (navIdentifyForm && navIdentifyStatus) {
     const formData = new FormData(navIdentifyForm);
     const email = String(formData.get("email") || "").trim();
     const password = String(formData.get("password") || "").trim();
-    const submitButton = navIdentifyForm.querySelector(".nav-identify-submit");
+    const submitButton = event.submitter;
+    const action = submitButton?.value === "register" ? "register" : "login";
+    const endpoint =
+      action === "register"
+        ? `${apiBaseUrl}/api/register`
+        : `${apiBaseUrl}/api/login`;
+    const loadingMessage =
+      action === "register" ? "Registrando cuenta..." : "Comprobando acceso...";
+    const fallbackError =
+      action === "register"
+        ? "No se pudo completar el registro."
+        : "No se pudo completar el inicio de sesion.";
+    const defaultButtonText = submitButton?.textContent || "";
+    const allSubmitButtons = navIdentifyForm.querySelectorAll(".nav-identify-submit");
 
     if (!email || !password) {
       setIdentifyStatus("Introduce un correo y una contrasena validos.", "is-error");
       return;
     }
 
-    setIdentifyStatus("Guardando datos...", "");
+    setIdentifyStatus(loadingMessage, "");
+
+    allSubmitButtons.forEach((button) => {
+      button.disabled = true;
+    });
 
     if (submitButton) {
-      submitButton.disabled = true;
       submitButton.textContent = "Enviando...";
     }
 
     try {
-      const response = await fetch("/api/identify", {
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -133,17 +174,26 @@ if (navIdentifyForm && navIdentifyStatus) {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.message || "No se pudieron guardar los datos.");
+        throw new Error(result.message || fallbackError);
       }
 
-      setIdentifyStatus("Datos guardados correctamente.", "is-success");
+      setIdentifyStatus(result.message || "Operacion completada correctamente.", "is-success");
+
+      if (action === "login") {
+        window.localStorage.setItem(sessionStorageKey, email);
+        updateLoggedUserDisplay(email);
+      }
+
       navIdentifyForm.reset();
     } catch (error) {
-      setIdentifyStatus(error.message || "Ha ocurrido un error al guardar los datos.", "is-error");
+      setIdentifyStatus(error.message || fallbackError, "is-error");
     } finally {
+      allSubmitButtons.forEach((button) => {
+        button.disabled = false;
+      });
+
       if (submitButton) {
-        submitButton.disabled = false;
-        submitButton.textContent = "Entrar";
+        submitButton.textContent = defaultButtonText;
       }
     }
   });
