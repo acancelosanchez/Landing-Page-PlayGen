@@ -1,0 +1,208 @@
+RÚBRICA DE EVALUACIÓN LANDING
+PAGE
+
+Producto evaluable: Landing page funcional + documentación técnica + repositorio
+Criterio general de validez:
+Cualquier entrega no ejecutable, con errores críticos de ejecución, con enlaces rotos
+esenciales, dependencias mal resueltas o imposibilidad de revisión técnica por parte del
+profesor, tendrá calificación de 0 en la entrega.
+1. Requisitos obligatorios de la práctica
+Para que la entrega pueda ser evaluada, debe cumplir todos los siguientes requisitos
+mínimos:
+1. La landing page debe incluir front-end funcional.
+
+2. La landing page debe incluir back-end funcional.
+3. Debe incorporar al menos una animación de front-end.
+4. Debe usar al menos tres tipografías de forma coherente y justificada en el diseño.
+5. El diseño debe ser responsive y adaptarse correctamente a:
+○ escritorio
+○ tablet en vertical
+○ tablet en horizontal
+○ móvil en vertical
+○ móvil en horizontal
+6. Debe implementar un mínimo de cinco funcionalidades intermedias o avanzadas (el
+backend puede estar incluido dentro de estas cinco funcionalidades).
+7. Si decidís entregarme más de cinco funcionalidades, debéis documentarlas todas las
+que decidáis entregar (No tenéis que explicarme toda la funcionalidad de la web
+solo las que decidáis entregar que sean las más importantes o relevantes).
+8. Debe entregarse un documento técnico dentro del repositorio con el nombre
+Documentacion.md en formato markdown (.md) donde se analicen y describan en
+detalle las funcionalidades implementadas.
+9. Ese documento debe incluir, de forma obligatoria, las líneas o fragmentos de código
+relevantes que hacen posible cada funcionalidad, los métodos más importantes que
+permiten ejecutar cada funcionalidad y una explicación precisa, rigurosa y detallada de cada
+funcionalidad por escrito relacionada con el código. En el classroom tenéis un
+documento llamado Indice documento entrega Landing Page donde se especifica el
+índice que debe tener este documento técnico.
+
+10. Lo único que debéis adjuntar en la entrega es la URL del repositorio. Dentro debe
+estar el archivo Documentacion.md y aseguraos de que se puede ejecutar vuestra web.
+11. En dicho repositorio debe haber al menos 5 commits.
+12. Todo el proyecto debe poder ejecutarse y revisarse correctamente.
+2. Condición de no evaluabilidad
+
+La práctica quedará no superada automáticamente y recibirá 0 puntos si ocurre cualquiera de
+estas situaciones:
+● La aplicación no arranca.
+● El proyecto no puede ejecutarse.
+● Falta alguna parte esencial del front-end o del back-end.
+● La URL del repositorio no funciona o no se entrega.
+● El repositorio no permite revisar el trabajo realizado.
+● Hay errores críticos que impiden probar las funcionalidades principales. ● La
+documentación no se entrega.
+● El proyecto entregado no coincide con lo documentado.
+● El código o las funcionalidades prometidas no son reproducibles.
+3. Rúbrica de evaluación
+
+Criterio 1. Ejecución, estabilidad y entregabilidad del
+proyecto — 20%
+Nivel 4 — Excelente
+El proyecto se ejecuta sin errores, todas las partes funcionan correctamente, la revisión
+técnica puede hacerse con normalidad y no hay fallos críticos ni dependencias mal
+resueltas.
+Nivel 3 — Adecuado
+El proyecto se ejecuta correctamente en lo esencial, aunque presenta pequeños fallos
+secundarios que no impiden la revisión ni el uso principal.
+Nivel 2 — Insuficiente
+El proyecto arranca con dificultad o presenta errores que afectan a varias partes relevantes,
+aunque aún permite una revisión parcial.
+Nivel 1 — Muy deficiente
+
+El proyecto no es ejecutable, falla de forma crítica o no puede revisarse técnicamente.
+Penalización absoluta: este criterio, si falla de forma crítica, implica 0 en la entrega.
+
+Criterio 2. Estructura y calidad del front-end — 15%
+Nivel 4 — Excelente
+La landing page presenta una estructura clara, semántica y bien organizada. El front-end está
+cuidado, es coherente visualmente y demuestra dominio del HTML, CSS y JavaScript
+aplicados al interfaz.
+Nivel 3 — Adecuado
+El front-end es funcional y presenta una estructura razonable, aunque con cierta rigidez,
+pequeños problemas de organización o menor coherencia visual.
+Nivel 2 — Insuficiente
+La estructura existe pero resulta pobre, poco clara o poco cuidada. Hay errores de
+organización o decisiones visuales poco trabajadas.
+Nivel 1 — Muy deficiente
+El front-end está incompleto, desordenado o mal resuelto y no alcanza un nivel mínimo
+funcional o visual.
+Criterio 3. Integración y funcionamiento del back-end
+— 15%
+Nivel 4 — Excelente
+El back-end existe, funciona correctamente y está integrado de forma real con la landing
+page. Se aprecia una relación clara entre interfaz y lógica de servidor.
+Nivel 3 — Adecuado
+El back-end está implementado y cumple una función básica útil, aunque con escasa
+complejidad o integración mejorable.
+Nivel 2 — Insuficiente
+El back-end existe de forma muy limitada, parcial o mal conectada con el front-end.
+Nivel 1 — Muy deficiente
+No hay back-end real, no funciona o no puede comprobarse.
+
+Criterio 4. Funcionalidades implementadas — 20%
+Nivel 4 — Excelente
+Se implementan correctamente cinco o más funcionalidades, todas funcionales, bien
+integradas y claramente diferenciables. Se aprecia comprensión técnica real y utilidad en su
+diseño.
+Nivel 3 — Adecuado
+Se implementan cinco funcionalidades, aunque alguna resulta simple, poco pulida o
+mejorable.
+Nivel 2 — Insuficiente
+Se implementan menos de cinco funcionalidades reales, o varias presentan errores de
+funcionamiento.
+Nivel 1 — Muy deficiente
+Las funcionalidades son mínimas, irrelevantes, no funcionan o no pueden comprobarse.
+Requisito mínimo obligatorio:
+Debe haber al menos cinco funcionalidades evaluables y ejecutables.
+
+Criterio 5. Responsive design y adaptación a
+dispositivos — 10%
+Nivel 4 — Excelente
+La web se adapta correctamente a escritorio, tablet y móvil, tanto en vertical como en
+horizontal. La distribución, jerarquía visual y usabilidad se mantienen en todos los formatos.
+Nivel 3 — Adecuado
+La web responde correctamente en la mayoría de formatos, aunque con pequeños fallos de
+distribución o ajuste en algunos casos.
+Nivel 2 — Insuficiente
+La adaptación responsive es parcial o presenta errores visibles en varios formatos.
+Nivel 1 — Muy deficiente
+La web no es responsive o falla claramente en varios dispositivos y orientaciones.
+
+Requisito obligatorio:
+Debe funcionar en:
+● escritorio
+● tablet vertical
+● tablet horizontal
+● móvil vertical
+● móvil horizontal
+
+Criterio 6. Uso de tipografías y coherencia visual — 5%
+
+Nivel 4 — Excelente
+Se emplean al menos tres tipografías con sentido visual, jerarquía clara y coherencia
+estética. Su uso está bien resuelto y mejora la identidad de la landing page.
+Nivel 3 — Adecuado
+Se emplean tres tipografías, aunque con una jerarquía mejorable o decisiones visuales algo
+forzadas.
+Nivel 2 — Insuficiente
+Se usan menos de tres tipografías, o se usan sin criterio claro.
+Nivel 1 — Muy deficiente
+No se cumple el requisito o el uso tipográfico es deficiente.
+Requisito mínimo obligatorio:
+Debe haber al menos tres tipografías.
+
+Criterio 7. Animación de front-end — 5%
+Nivel 4 — Excelente
+La landing page incorpora una o varias animaciones bien integradas, suaves, útiles y
+coherentes con la experiencia de usuario.
+Nivel 3 — Adecuado
+Existe al menos una animación funcional de front-end, aunque simple o poco pulida.
+
+Nivel 2 — Insuficiente
+La animación existe pero está mal resuelta, es irrelevante o falla parcialmente.
+Nivel 1 — Muy deficiente
+No existe animación o no funciona.
+Requisito mínimo obligatorio:
+Debe incluirse al menos una animación de front-end.
+
+Criterio 8. Documentación técnica — 10%
+
+Nivel 4 — Excelente
+Se entrega un documento técnico claro, bien estructurado y completo. Describe en detalle las
+cinco funcionalidades mínimas y, si hay más, también las documenta todas. Incluye
+explicación técnica, lógica de funcionamiento y fragmentos de código relevantes.
+Nivel 3 — Adecuado
+La documentación existe y permite entender el proyecto, aunque con menor profundidad o
+detalle técnico.
+Nivel 2 — Insuficiente
+La documentación es escasa, incompleta o superficial. Faltan explicaciones o faltan partes del
+código relevante.
+Nivel 1 — Muy deficiente
+No se entrega documentación o es claramente insuficiente.
+Obligatorio en la documentación:
+●Incluir todos los puntos del índice del documento técnico que tenéis en el classroom
+
+Criterio 9. Repositorio y trazabilidad del trabajo — 5%
+Nivel 4 — Excelente
+Se entrega correctamente la URL del repositorio, la organización es clara y hay una
+evolución real del trabajo con commits comprensibles.
+Nivel 3 — Adecuado
+
+La URL se entrega y el repositorio permite revisar el proyecto, aunque con organización
+mejorable o commits poco informativos.
+Nivel 2 — Insuficiente
+La URL existe pero el repositorio presenta desorden, poca trazabilidad o escasa claridad.
+Nivel 1 — Muy deficiente
+No se entrega la URL o el repositorio no permite revisar correctamente el trabajo.
+Requisito mínimo obligatorio:
+La URL del repositorio debe entregarse y debe haber al menos 5 commits.
+4. Resumen de ponderación
+● Ejecución, estabilidad y entregabilidad: 20%
+● Calidad del front-end: 15%
+● Integración del back-end: 15%
+● Funcionalidades implementadas: 20%
+● Responsive design: 10%
+● Uso de tipografías: 5%
+● Animación de front-end: 5%
+● Documentación técnica: 10%
+● Repositorio y trazabilidad: 5%
+Total: 100%

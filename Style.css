@@ -786,7 +786,7 @@ section {
 }
 
 #partners-section {
-  padding: 6rem 0;
+  padding: 6rem 0 2rem;
 }
 
 #events,
@@ -808,7 +808,7 @@ section {
 .partners-title {
   margin-bottom: 0;
   text-align: center;
-  color: var(--gray);
+  color: var(--white);
   font-size: clamp(2rem, 4vw, 3.5rem) !important;
   letter-spacing: 0.02em;
 }
@@ -920,10 +920,6 @@ section {
   font-size: 0.75rem;
 }
 
-.event-meta span::before {
-  margin-right: 0.3rem;
-}
-
 .event-status {
   display: inline-flex;
   align-items: center;
@@ -966,14 +962,14 @@ section {
 #services {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 8rem 4rem;
+  padding: 8rem 4rem 3rem;
 }
 
 .services-stack {
   display: flex;
   flex-direction: column;
   gap: 16rem;
-  padding-bottom: 4rem;
+  padding-bottom: 1rem;
 }
 
 .service-stack-card {
@@ -1006,15 +1002,6 @@ section {
 
 .service-stack-copy {
   max-width: 320px;
-}
-
-.service-stack-index {
-  display: inline-block;
-  margin-bottom: 1.2rem;
-  color: rgba(0, 255, 178, 0.55);
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.28em;
 }
 
 .service-stack-copy h3 {
@@ -1077,90 +1064,6 @@ section {
   border: 1px dashed rgba(240, 240, 248, 0.25);
 }
 
-.media-placeholder span {
-  position: relative;
-  z-index: 1;
-  padding: 0.9rem 1.2rem;
-  border: 1px solid rgba(0, 255, 178, 0.22);
-  background: rgba(5, 5, 8, 0.72);
-  color: var(--white);
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.82rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-/* Tarjetas de servicios con línea animada y realce al pasar el ratón. */
-.service-card {
-  position: relative;
-  overflow: hidden;
-  padding: 3rem 2rem;
-  background: var(--dark2);
-  transition: background 0.3s;
-}
-
-.service-card:hover {
-  background: var(--dark3);
-}
-
-.service-card::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(to right, var(--neon), var(--purple));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s;
-}
-
-.service-card:hover::after {
-  transform: scaleX(1);
-}
-
-.service-num {
-  display: block;
-  margin-bottom: 1.5rem;
-  color: rgba(0, 255, 178, 0.4);
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.65rem;
-  letter-spacing: 0.2em;
-}
-
-.service-icon {
-  display: block;
-  margin-bottom: 1.5rem;
-  font-size: 2rem;
-  transition: transform 0.3s;
-}
-
-.service-card:hover .service-icon {
-  transform: scale(1.2) rotate(-5deg);
-}
-
-.service-card h3 {
-  margin-bottom: 0.8rem;
-  font-family: "Bebas Neue", sans-serif;
-  font-size: 1.5rem;
-  letter-spacing: 0.02em;
-}
-
-.service-card p {
-  color: var(--gray);
-  font-size: 0.85rem;
-  line-height: 1.7;
-}
-
 /* Carrusel continuo de partners con degradados laterales para suavizar el corte. */
 .partners-track {
   position: relative;
@@ -1192,12 +1095,6 @@ section {
   display: flex;
   width: max-content;
   animation: scrollPartners 25s linear infinite;
-}
-
-.partners-row:nth-child(2) {
-  margin-top: 1rem;
-  animation-direction: reverse;
-  animation-duration: 30s;
 }
 
 .partner-pill {
@@ -1262,9 +1159,9 @@ section {
 
 .cta-inner h2 span {
   display: block;
-  color: transparent;
-  -webkit-text-stroke: 2px var(--white);
-  opacity: 0.3;
+  color: var(--neon);
+  -webkit-text-stroke: 0;
+  opacity: 1;
 }
 
 .cta-inner p {
@@ -1645,10 +1542,6 @@ footer {
     grid-column: span 2;
   }
 
-  .services-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
   .services-stack {
     gap: 10rem;
     padding-bottom: 2rem;
@@ -1723,10 +1616,6 @@ footer {
     margin-left: auto;
   }
 
-  .nav-links > li:not(.nav-contact-item) {
-    display: none;
-  }
-
   .nav-contact-menu {
     min-width: min(12.5rem, calc(100vw - 2.5rem));
     max-width: calc(100vw - 2.5rem);
@@ -1772,7 +1661,6 @@ footer {
   }
 
   .events-grid,
-  .services-grid,
   .about-stats,
   .footer-inner,
   .footer-bottom {
@@ -1796,12 +1684,6 @@ footer {
   .service-stack-visual,
   .service-stack-media {
     min-height: 32vh;
-  }
-
-  .media-placeholder span {
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    text-align: center;
   }
 
   .event-card:first-child {
