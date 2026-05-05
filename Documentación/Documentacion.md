@@ -2,23 +2,28 @@
 
 ## 1. Instrucciones de inicio y ejecucion
 
-La landing page esta desarrollada con HTML, CSS y JavaScript en el cliente, y un servidor Node.js con Express para servir archivos estaticos y gestionar el registro/inicio de sesion.
+La landing page de Play Generation esta desarrollada con HTML, CSS y JavaScript en el frontend. Ademas, incorpora un servidor Node.js con Express para servir la web localmente y gestionar peticiones de registro e inicio de sesion.
 
 ### Requisitos previos
 
-- Node.js instalado.
-- npm instalado.
-- Dependencias del proyecto instaladas mediante `npm install`.
+- Tener instalado Node.js.
+- Tener instalado npm.
+- Ejecutar los comandos desde la raiz del proyecto.
 
-### Instalacion
-
-Desde la raiz del proyecto:
+### Instalacion de dependencias
 
 ```bash
 npm install
 ```
 
-Este comando instala las dependencias declaradas en `package.json`, principalmente `express` y `cors`.
+Este comando instala las dependencias declaradas en `package.json`, principalmente:
+
+```json
+"dependencies": {
+  "cors": "^2.8.6",
+  "express": "^5.2.1"
+}
+```
 
 ### Ejecucion local
 
@@ -26,189 +31,258 @@ Este comando instala las dependencias declaradas en `package.json`, principalmen
 npm start
 ```
 
-El script ejecuta:
+El script definido en `package.json` ejecuta el servidor principal:
 
 ```json
 "scripts": {
-  "start": "node server.js",
-  "test": "echo \"Sin pruebas automaticas configuradas\""
+  "start": "node server.js"
 }
 ```
 
-Al iniciar correctamente, el servidor queda disponible en:
+Una vez iniciado, el proyecto queda disponible en:
 
 ```text
 http://localhost:3000
 ```
 
-El archivo principal `index.html` se sirve desde Express mediante archivos estaticos y tambien mediante la ruta raiz `/`.
+El servidor sirve `index.html`, `Style.css`, `Animation.js` y los recursos de la carpeta `Img` mediante `express.static(__dirname)`.
 
 ## 2. Enumeracion de funcionalidades principales
 
-Las cinco funcionalidades mas relevantes implementadas son:
+Las cinco funcionalidades principales implementadas en la landing page son:
 
-1. Navegacion fija con menu desplegable, anclas internas y panel de identificacion.
-2. Hero visual animado con logo, efecto glitch, particulas y llamadas a la accion.
-3. Animaciones progresivas al hacer scroll y contadores numericos.
-4. Secciones comerciales de eventos, servicios apilados y partners en carrusel.
-5. Backend Express para registro e inicio de sesion con persistencia local.
+1. Menu hamburguesa.
+2. Animacion de particulas.
+3. Contadores animados.
+4. Sticky Stack Cards.
+5. Ticker-Wrap.
 
-## 3. Navegacion fija, menu y panel de identificacion
+## 3. Menu hamburguesa
 
 ### Descripcion
 
-La landing incorpora una barra de navegacion fija en la parte superior. Permite acceder a las secciones internas mediante enlaces de ancla, abrir un menu desplegable de navegacion y mostrar un formulario de identificacion para login o registro. Tambien muestra el correo del usuario cuando la sesion queda almacenada en `localStorage`.
+El menu hamburguesa permite mostrar y ocultar la navegacion interna de la landing desde un boton compacto. Esta funcionalidad mejora la usabilidad de la cabecera porque agrupa los enlaces principales sin ocupar espacio permanente en pantalla.
+
+El menu contiene accesos a las secciones `Nosotros`, `Eventos`, `Servicios`, `Partners` y `Contacto`.
 
 ### Funcionamiento
 
-En `index.html`, la barra de navegacion se define mediante un elemento `nav` con identificador `navbar`. El menu usa un boton con `aria-expanded` y `aria-controls` para indicar su estado accesible. El panel de identificacion es un formulario que contiene campos `email` y `password` y dos botones de envio diferenciados por el valor del atributo `value`.
+En `index.html`, el menu se implementa dentro de la barra de navegacion mediante un boton con clase `.nav-menu-toggle`. El boton controla la lista `.nav-contact-menu` usando los atributos `aria-expanded` y `aria-controls`, lo que permite indicar si el menu esta abierto o cerrado.
 
 ### Codigo
 
+Fragmento HTML del boton hamburguesa y del menu desplegable:
+
 ```html
-<button
-  type="button"
-  class="nav-cta nav-identify-button"
-  aria-expanded="false"
-  aria-controls="nav-identify-panel"
->
-  Identificate
-</button>
+<li class="nav-contact-item">
+  <button
+    type="button"
+    class="nav-cta nav-menu-toggle"
+    aria-expanded="false"
+    aria-controls="nav-contact-menu"
+  >
+    <span class="nav-menu-icon" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+  </button>
 
-<form class="nav-identify-panel" id="nav-identify-panel">
-  <input type="email" name="email" autocomplete="email" required>
-  <input type="password" name="password" autocomplete="current-password" required minlength="4">
-  <button type="submit" class="nav-identify-submit" name="action" value="login">Entrar</button>
-  <button type="submit" class="nav-identify-submit" name="action" value="register">Registrarme</button>
-  <p class="nav-identify-status" id="nav-identify-status" aria-live="polite"></p>
-</form>
+  <ul class="nav-contact-menu" id="nav-contact-menu">
+    <li><a href="#about">Nosotros</a></li>
+    <li><a href="#events">Eventos</a></li>
+    <li><a href="#services">Servicios</a></li>
+    <li><a href="#partners">Partners</a></li>
+    <li><a href="#cta">Contacto</a></li>
+  </ul>
+</li>
 ```
 
-El archivo `Animation.js` obtiene referencias del DOM con `document.querySelector` y `document.getElementById`. El estado visual del menu y del formulario se controla mediante clases CSS (`menu-open` y `form-open`) y actualizacion del atributo `aria-expanded`.
+El icono hamburguesa se construye con tres `span` internos. Estos elementos representan las tres lineas visuales del icono. No se usa imagen externa, sino CSS.
 
-```javascript
-navMenuToggle.addEventListener("click", () => {
-  const isOpen = navMenuItem.classList.toggle("menu-open");
-  navMenuToggle.setAttribute("aria-expanded", String(isOpen));
-});
+```css
+.nav-menu-icon {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 16px;
+}
 
-navIdentifyButton.addEventListener("click", () => {
-  const isOpen = navIdentifyItem.classList.toggle("form-open");
-  navIdentifyButton.setAttribute("aria-expanded", String(isOpen));
-});
+.nav-menu-icon span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
 ```
 
-El cierre del menu y del panel se realiza al hacer clic fuera del componente o al pulsar `Escape`, evitando que elementos flotantes permanezcan abiertos accidentalmente.
+Cuando el menu esta abierto, `Animation.js` anade la clase `.menu-open` al contenedor `.nav-contact-item`. Esta clase transforma las tres lineas del icono en una cruz: la primera rota 45 grados, la segunda se oculta y la tercera rota -45 grados.
+
+```css
+.nav-contact-item.menu-open .nav-menu-icon span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.nav-contact-item.menu-open .nav-menu-icon span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-contact-item.menu-open .nav-menu-icon span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+```
+
+La apertura y cierre se controlan desde `Animation.js`:
 
 ```javascript
+const navMenuItem = document.querySelector(".nav-contact-item");
+const navMenuToggle = document.querySelector(".nav-menu-toggle");
+const navMenuLinks = document.querySelectorAll(".nav-contact-menu a");
+
+if (navMenuItem && navMenuToggle) {
+  const closeNavMenu = () => {
+    navMenuItem.classList.remove("menu-open");
+    navMenuToggle.setAttribute("aria-expanded", "false");
+  };
+
+  navMenuToggle.addEventListener("click", () => {
+    const isOpen = navMenuItem.classList.toggle("menu-open");
+    navMenuToggle.setAttribute("aria-expanded", String(isOpen));
+  });
+}
+```
+
+La sintaxis `classList.toggle("menu-open")` alterna la clase CSS y devuelve un booleano. Ese valor se convierte a texto con `String(isOpen)` para mantener sincronizado el atributo `aria-expanded`.
+
+Tambien se cierran los menus al hacer clic fuera, al pulsar un enlace o al presionar la tecla `Escape`:
+
+```javascript
+document.addEventListener("click", (event) => {
+  if (navMenuItem.contains(event.target)) {
+    return;
+  }
+
+  closeNavMenu();
+});
+
+navMenuLinks.forEach((link) => {
+  link.addEventListener("click", closeNavMenu);
+});
+
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
-    closeIdentifyPanel();
+    closeNavMenu();
   }
 });
 ```
 
-En `Style.css`, el panel se oculta inicialmente con `opacity`, `visibility` y `pointer-events`. Al aplicar la clase `form-open`, se habilita la interaccion y se ejecuta una transicion visual.
-
-```css
-.nav-identify-panel {
-  position: absolute;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transform: translateY(-8px);
-  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
-}
-
-.nav-identify-item.form-open .nav-identify-panel {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-```
-
-## 4. Hero animado con identidad visual y llamadas a la accion
+## 4. Animacion de particulas
 
 ### Descripcion
 
-La seccion principal presenta la marca Play Generation con un logo, titulo de gran impacto, fondo con cuadricula animada, resplandor, efecto glitch y particulas flotantes. Incluye dos llamadas a la accion que redirigen a las secciones de eventos e informacion corporativa.
+La animacion de particulas genera piezas flotantes decorativas en el hero de la landing. Estas particulas refuerzan la estetica gaming y retro del proyecto mediante formas inspiradas en bloques geometricos.
 
 ### Funcionamiento
 
-La estructura del hero esta definida en `index.html` dentro de la seccion `#hero`. Las capas visuales (`hero-grid`, `hero-glow` y `particles`) se colocan antes del contenido para actuar como fondo.
+En `index.html`, el hero contiene un contenedor vacio con identificador `particles`. Este contenedor actua como punto de insercion para los elementos generados desde JavaScript.
 
 ### Codigo
+
+Contenedor HTML:
 
 ```html
 <section id="hero">
   <div class="hero-grid"></div>
   <div class="hero-glow"></div>
   <div class="particles" id="particles"></div>
-
-  <div class="hero-title-group">
-    <img src="Img/PACO 3.1.png" alt="Play Generation" class="hero-logo-img" id="hero-logo">
-    <h1>
-      <span class="line1 glitch" data-text="PLAY">PLAY</span>
-      <span class="line2">GENERATION</span>
-    </h1>
-  </div>
 </section>
 ```
 
-El efecto glitch se apoya en el atributo `data-text`. En CSS, los pseudo-elementos `::before` y `::after` duplican el texto y aplican recortes (`clip-path`), desplazamientos y animaciones independientes.
-
-```css
-.glitch::before,
-.glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-}
-
-.glitch::before {
-  color: var(--fire);
-  clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
-  animation: glitch1 4s infinite;
-}
-
-.glitch::after {
-  color: var(--neon);
-  clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
-  animation: glitch2 4s infinite;
-}
-```
-
-Las particulas se generan dinamicamente desde `Animation.js`. El script crea catorce elementos `div`, les asigna clases de forma aleatoria y define variables CSS personalizadas para color, tamano, rotacion y desplazamiento.
+En `Animation.js`, se declara el contenedor y dos arrays: uno para las formas y otro para los colores disponibles.
 
 ```javascript
-for (let index = 0; index < 14; index += 1) {
-  const particle = document.createElement("div");
-  particle.classList.add("particle");
-  particle.classList.add(tetriminoShapes[Math.floor(Math.random() * tetriminoShapes.length)]);
-  particle.style.left = `${Math.random() * 100}%`;
-  particle.style.animationDuration = `${Math.random() * 15 + 8}s`;
-  particle.style.setProperty("--drift", `${Math.random() * 100 - 50}px`);
-  particle.style.setProperty("--particle-color", tetriminoColors[Math.floor(Math.random() * tetriminoColors.length)]);
-  particlesContainer.appendChild(particle);
+const particlesContainer = document.getElementById("particles");
+
+const tetriminoShapes = ["shape-i", "shape-o", "shape-t", "shape-l", "shape-z"];
+const tetriminoColors = ["#ff8a00", "#ff5e5b", "#4db6ff", "#8a7dff", "#ff9ed6"];
+```
+
+La generacion se realiza con un bucle `for`. En cada iteracion se crea un `div`, se le asignan clases CSS y se configuran propiedades dinamicas mediante variables CSS personalizadas.
+
+```javascript
+if (particlesContainer) {
+  for (let index = 0; index < 14; index += 1) {
+    const particle = document.createElement("div");
+    particle.classList.add("particle");
+    particle.classList.add(tetriminoShapes[Math.floor(Math.random() * tetriminoShapes.length)]);
+    particle.style.left = `${Math.random() * 100}%`;
+    particle.style.animationDuration = `${Math.random() * 15 + 8}s`;
+    particle.style.animationDelay = `${Math.random() * 10}s`;
+    particle.style.setProperty("--drift", `${Math.random() * 100 - 50}px`);
+    particle.style.setProperty("--piece-size", `${Math.random() * 8 + 10}px`);
+    particle.style.setProperty("--piece-rotation", `${Math.floor(Math.random() * 4) * 90}deg`);
+    particle.style.setProperty("--particle-color", tetriminoColors[Math.floor(Math.random() * tetriminoColors.length)]);
+    particlesContainer.appendChild(particle);
+  }
 }
 ```
 
-El CSS interpreta esas variables en la animacion `float`, que desplaza cada particula desde la parte inferior del viewport hasta una posicion superior.
+La instruccion `document.createElement("div")` crea cada particula en memoria. Despues, `appendChild(particle)` la inserta dentro del contenedor real del DOM.
+
+El CSS base posiciona las particulas de forma absoluta dentro del hero e interpreta las variables definidas desde JavaScript.
 
 ```css
+.particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
 .particle {
+  position: absolute;
   width: calc(var(--piece-size, 14px) * 4);
   height: calc(var(--piece-size, 14px) * 4);
   animation: float linear infinite;
+  opacity: 0;
 }
 
+.particle::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--particle-color, var(--neon));
+}
+```
+
+Cada forma se define mediante `clip-path`. Por ejemplo, la pieza `shape-i` genera una barra horizontal y `shape-o` genera un bloque cuadrado.
+
+```css
+.particle.shape-i::before {
+  clip-path: polygon(0% 25%, 100% 25%, 100% 50%, 0% 50%);
+}
+
+.particle.shape-o::before {
+  clip-path: polygon(25% 25%, 75% 25%, 75% 75%, 25% 75%);
+}
+```
+
+La animacion `float` desplaza cada particula desde la parte inferior de la ventana hasta una zona superior, aplicando tambien deriva horizontal y rotacion.
+
+```css
 @keyframes float {
   0% {
     transform: translateY(100vh) translateX(0) rotate(var(--piece-rotation, 0deg));
     opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
   }
 
   100% {
@@ -218,51 +292,34 @@ El CSS interpreta esas variables en la animacion `float`, que desplaza cada part
 }
 ```
 
-## 5. Animaciones al hacer scroll y contadores
+## 5. Contadores
 
 ### Descripcion
 
-La web aplica animaciones de entrada a los bloques informativos y anima las cifras de la seccion "Quienes somos" cuando el usuario llega a esa zona. Esta funcionalidad mejora la percepcion de dinamismo sin cargar todos los efectos al inicio.
+Los contadores animan las cifras de la seccion informativa de la landing. Se aplican a datos como eventos organizados, anos de experiencia, ciudades alcanzadas y marcas colaboradoras.
 
 ### Funcionamiento
 
-Los elementos que deben aparecer progresivamente incluyen la clase `.reveal` en `index.html`. En CSS, esta clase define un estado inicial desplazado y transparente.
+En `index.html`, los valores numericos estan dentro de elementos con clase `.stat-number`, agrupados en el contenedor `.about-stats`.
 
 ### Codigo
 
-```css
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
+Fragmento HTML:
 
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+```html
+<div class="about-stats reveal reveal-delay-1">
+  <div class="stat-card reveal">
+    <span class="stat-number">+150</span>
+    <span class="stat-label">Eventos organizados</span>
+  </div>
+  <div class="stat-card reveal reveal-delay-1">
+    <span class="stat-number">7</span>
+    <span class="stat-label">Anos de experiencia</span>
+  </div>
+</div>
 ```
 
-`Animation.js` utiliza `IntersectionObserver`, API nativa del navegador que detecta cuando un elemento entra en el viewport. Al cumplirse el umbral de visibilidad, se agrega la clase `visible`.
-
-```javascript
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) {
-        return;
-      }
-
-      entry.target.classList.add("visible");
-    });
-  },
-  { threshold: 0.12 }
-);
-
-reveals.forEach((element) => revealObserver.observe(element));
-```
-
-Los contadores se aplican a los elementos `.stat-number`. La funcion `animateCounter` conserva prefijos y sufijos del texto original, extrae la parte numerica mediante expresion regular y actualiza el contenido progresivamente con `setInterval`.
+La funcion `animateCounter` obtiene el texto original, separa prefijo, numero y sufijo mediante una expresion regular, y actualiza el contenido de forma incremental.
 
 ```javascript
 const animateCounter = (element) => {
@@ -291,60 +348,80 @@ const animateCounter = (element) => {
 };
 ```
 
-Para evitar que la animacion se repita indefinidamente, el observador de estadisticas deja de observar el bloque tras ejecutarse una vez.
+La expresion regular `/^(\D*)(\d+)(.*)$/` divide el texto en tres grupos:
+
+- `(\D*)`: caracteres no numericos iniciales, como `+`.
+- `(\d+)`: cifra principal que se va a animar.
+- `(.*)`: texto final opcional.
+
+La animacion se lanza solo cuando `.about-stats` entra en pantalla. Para ello se usa `IntersectionObserver` con un umbral del 50%.
 
 ```javascript
-statNumbers.forEach(animateCounter);
-statObserver.unobserve(entry.target);
+const aboutStats = document.querySelector(".about-stats");
+
+if (aboutStats) {
+  const statObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) {
+          return;
+        }
+
+        const statNumbers = entry.target.querySelectorAll(".stat-number");
+        statNumbers.forEach(animateCounter);
+        statObserver.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.5 }
+  );
+
+  statObserver.observe(aboutStats);
+}
 ```
 
-## 6. Secciones de eventos, servicios y partners
+La llamada `statObserver.unobserve(entry.target)` evita que los contadores se reinicien cada vez que el usuario vuelve a pasar por la seccion.
+
+## 6. Sticky Stack Cards
 
 ### Descripcion
 
-La landing presenta contenido comercial organizado en tres bloques principales: eventos destacados, servicios/experiencias y partners. Estas secciones estructuran la propuesta de valor de la marca y facilitan que el usuario entienda que ofrece Play Generation.
+Las Sticky Stack Cards presentan los servicios o experiencias de Play Generation mediante tarjetas apiladas. Durante el scroll, cada tarjeta permanece fija temporalmente y se superpone visualmente a las anteriores, creando una lectura secuencial.
 
 ### Funcionamiento
 
-La seccion de eventos usa una cuadricula CSS. El primer evento ocupa dos columnas en escritorio para destacar el festival principal, mientras que el resto quedan en tarjetas secundarias.
+En `index.html`, las tarjetas estan dentro de `.services-stack`. Cada tarjeta usa la clase `.service-stack-card` y contiene una zona de texto y una zona visual con imagen.
 
 ### Codigo
 
+Estructura HTML:
+
 ```html
-<div class="events-grid">
-  <div class="event-card reveal">
-    <div class="event-visual">
-      <div class="event-bg event-bg-1"></div>
-      <div class="event-grid-pattern"></div>
+<div class="services-stack">
+  <article class="service-stack-card reveal">
+    <div class="service-stack-copy">
+      <h3>Festivales que se sienten vivos</h3>
     </div>
-    <div class="event-info">
-      <div class="event-tag">Festival principal 2026</div>
-      <h3>PLAY CORDOBA #GAME-FEST</h3>
+    <div class="service-stack-visual">
+      <div class="service-stack-media media-placeholder">
+        <img src="img/imgplaygen4.webp" alt="Experiencia Play Generation">
+      </div>
     </div>
-  </div>
+  </article>
 </div>
 ```
 
+El contenedor usa `display: flex` en columna y una separacion vertical amplia. Esa separacion permite que el efecto sticky tenga recorrido suficiente durante el desplazamiento.
+
 ```css
-.events-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-}
-
-.event-card:first-child {
-  grid-column: span 2;
-}
-
-.event-bg-1 {
-  background-image: url("Img/CARTELES-WEB-HORIZONTAL1.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+.services-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16rem;
+  padding-bottom: 4rem;
 }
 ```
 
-La seccion de servicios utiliza tarjetas con `position: sticky`, lo que permite que cada bloque permanezca fijado temporalmente durante el desplazamiento. Cada tarjeta combina un texto breve con una imagen real del proyecto.
+Cada tarjeta usa `position: sticky`. Esta propiedad mantiene el elemento dentro del flujo del documento, pero lo fija respecto al viewport cuando alcanza la distancia indicada por `top`.
 
 ```css
 .service-stack-card {
@@ -355,6 +432,38 @@ La seccion de servicios utiliza tarjetas con `position: sticky`, lo que permite 
   gap: 2rem;
   align-items: center;
   min-height: 72vh;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    radial-gradient(circle at top left, rgba(0, 255, 178, 0.12), transparent 35%),
+    linear-gradient(135deg, rgba(16, 16, 28, 0.98), rgba(10, 10, 18, 0.98));
+}
+```
+
+Las tarjetas posteriores tienen un `top` distinto para reforzar el efecto de apilado.
+
+```css
+.service-stack-card:nth-child(2) {
+  top: 9rem;
+}
+
+.service-stack-card:nth-child(3) {
+  top: 10.5rem;
+}
+
+.service-stack-card:nth-child(4) {
+  top: 12rem;
+}
+```
+
+La imagen ocupa todo el contenedor visual gracias a `position: absolute` y `object-fit: cover`.
+
+```css
+.service-stack-media {
+  position: relative;
+  width: 100%;
+  min-height: 56vh;
+  overflow: hidden;
 }
 
 .service-stack-media img {
@@ -367,25 +476,79 @@ La seccion de servicios utiliza tarjetas con `position: sticky`, lo que permite 
 }
 ```
 
-El carrusel de partners se implementa duplicando elementos visuales dentro de una fila horizontal. La animacion `scrollPartners` mueve la fila hacia la izquierda de forma lineal e infinita.
+## 7. Ticker-Wrap
+
+### Descripcion
+
+El Ticker-Wrap es una cinta horizontal animada que muestra conceptos y cifras relevantes de la marca. Funciona como refuerzo visual entre el hero y el contenido principal.
+
+### Funcionamiento
+
+En `index.html`, la funcionalidad se estructura con un contenedor externo `.ticker-wrap` y una fila interna `.ticker`. Los textos se repiten para que la animacion parezca continua.
+
+### Codigo
+
+Fragmento HTML:
 
 ```html
-<div class="partners-row">
-  <div class="partner-pill">Red Bull</div>
-  <div class="partner-pill">Nintendo</div>
-  <div class="partner-pill">Sony</div>
-  <div class="partner-pill">GAME</div>
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="ticker-item">+150 Eventos</span>
+    <span class="ticker-item">Gaming</span>
+    <span class="ticker-item">Esports</span>
+    <span class="ticker-item">Torneos</span>
+    <span class="ticker-item">Tecnologia</span>
+    <span class="ticker-item">+40 Partners</span>
+  </div>
 </div>
 ```
 
+El contenedor externo oculta el desbordamiento horizontal y define el fondo de la cinta.
+
 ```css
-.partners-row {
+.ticker-wrap {
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+  padding: 0.7rem 0;
+  background: var(--neon);
+}
+```
+
+La fila interna se muestra en horizontal con `display: flex`, evita saltos de linea con `white-space: nowrap` y ejecuta la animacion `ticker`.
+
+```css
+.ticker {
   display: flex;
-  width: max-content;
-  animation: scrollPartners 25s linear infinite;
+  white-space: nowrap;
+  animation: ticker 30s linear infinite;
 }
 
-@keyframes scrollPartners {
+.ticker-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 3rem;
+  color: var(--dark);
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+}
+```
+
+Cada elemento incluye un separador visual generado con `::before`.
+
+```css
+.ticker-item::before {
+  content: "◆";
+  font-size: 0.5rem;
+}
+```
+
+La animacion desplaza la fila completa hacia la izquierda hasta `-50%`. Al estar el contenido duplicado en HTML, el movimiento se percibe como un bucle continuo.
+
+```css
+@keyframes ticker {
   0% {
     transform: translateX(0);
   }
@@ -396,17 +559,19 @@ El carrusel de partners se implementa duplicando elementos visuales dentro de un
 }
 ```
 
-## 7. Backend Express para registro e inicio de sesion
+## 8. Funcionalidad Backend
 
 ### Descripcion
 
-El backend permite registrar usuarios e iniciar sesion desde el formulario de la barra de navegacion. Los datos se almacenan localmente en formato JSON dentro de `data/credentials.json`. Las contrasenas no se guardan en texto plano, sino como hash SHA-256.
+El backend permite ejecutar la landing desde un servidor local y gestionar el registro e inicio de sesion del formulario de identificacion. Los datos se guardan en `data/credentials.json`.
 
 ### Funcionamiento
 
-El servidor se define en `server.js`. Se importan Express, CORS, utilidades de rutas, el modulo de sistema de archivos con promesas y `crypto` para generar hashes e identificadores.
+`server.js` crea una aplicacion Express, habilita CORS, activa el parseo JSON y sirve los archivos estaticos del proyecto. Tambien define los endpoints `POST /api/register` y `POST /api/login`.
 
 ### Codigo
+
+Configuracion principal del servidor:
 
 ```javascript
 const express = require("express");
@@ -419,17 +584,13 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const DATA_DIR = path.join(__dirname, "data");
 const DB_FILE = path.join(DATA_DIR, "credentials.json");
-```
 
-El middleware habilita CORS, parseo automatico de JSON en el cuerpo de las peticiones y servicio de archivos estaticos desde la raiz del proyecto.
-
-```javascript
 app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname));
 ```
 
-La funcion `ensureDatabase` garantiza que exista el directorio `data` y el archivo `credentials.json`. Si el archivo no existe, lo inicializa como array JSON vacio.
+Creacion y lectura de la base de datos local:
 
 ```javascript
 const ensureDatabase = async () => {
@@ -441,34 +602,28 @@ const ensureDatabase = async () => {
     await fs.writeFile(DB_FILE, "[]", "utf8");
   }
 };
-```
 
-La validacion de credenciales normaliza el correo a minusculas, comprueba campos obligatorios, verifica el formato mediante expresion regular y exige una longitud minima de cuatro caracteres para la contrasena.
+const readCredentials = async () => {
+  await ensureDatabase();
+  const raw = await fs.readFile(DB_FILE, "utf8");
 
-```javascript
-const getValidatedCredentials = (body) => {
-  const email = String(body?.email || "").trim().toLowerCase();
-  const password = String(body?.password || "").trim();
-
-  if (!email || !password) {
-    return { message: "El correo y la contrasena son obligatorios." };
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
   }
-
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  if (!emailPattern.test(email)) {
-    return { message: "El correo no tiene un formato valido." };
-  }
-
-  if (password.length < 4) {
-    return { message: "La contrasena debe tener al menos 4 caracteres." };
-  }
-
-  return { email, password };
 };
 ```
 
-El endpoint `POST /api/register` valida la entrada, comprueba duplicados, genera un identificador unico con `crypto.randomUUID()`, calcula el hash de la contrasena y persiste el nuevo registro.
+La contrasena se transforma a hash SHA-256 antes de almacenarse:
+
+```javascript
+const hashPassword = (password) =>
+  crypto.createHash("sha256").update(password).digest("hex");
+```
+
+Endpoint de registro:
 
 ```javascript
 app.post("/api/register", async (req, res) => {
@@ -485,20 +640,23 @@ app.post("/api/register", async (req, res) => {
     return res.status(409).json({ message: "Ya existe una cuenta con ese correo." });
   }
 
+  const timestamp = new Date().toISOString();
+
   credentials.push({
     id: crypto.randomUUID(),
     email,
     passwordHash: hashPassword(password),
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+    createdAt: timestamp,
+    updatedAt: timestamp,
   });
 
   await writeCredentials(credentials);
+
   return res.status(201).json({ message: "Registro completado correctamente." });
 });
 ```
 
-El endpoint `POST /api/login` valida la entrada, busca el usuario por correo y compara el hash calculado de la contrasena recibida con el hash almacenado.
+Endpoint de inicio de sesion:
 
 ```javascript
 app.post("/api/login", async (req, res) => {
@@ -523,44 +681,19 @@ app.post("/api/login", async (req, res) => {
 });
 ```
 
-En el cliente, `Animation.js` determina el endpoint segun el boton pulsado y envia una peticion `fetch` con metodo `POST`, cabecera `Content-Type: application/json` y cuerpo serializado con `JSON.stringify`.
-
-```javascript
-const action = submitButton?.value === "register" ? "register" : "login";
-const endpoint =
-  action === "register"
-    ? `${apiBaseUrl}/api/register`
-    : `${apiBaseUrl}/api/login`;
-
-const response = await fetch(endpoint, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({ email, password }),
-});
-```
-
-Cuando el login es correcto, el correo se guarda en `localStorage` y se actualiza la interfaz mediante `updateLoggedUserDisplay`.
-
-```javascript
-if (action === "login") {
-  window.localStorage.setItem(sessionStorageKey, email);
-  updateLoggedUserDisplay(email);
-}
-```
-
-## 8. Responsividad
+## 9. Responsividad
 
 ### Descripcion
 
-La landing esta adaptada a escritorio, tablet y movil. La responsividad se consigue con CSS nativo, principalmente `grid`, `flex`, `clamp()`, unidades relativas y media queries en los puntos de corte `1024px`, `900px` y `640px`.
+La landing se adapta a escritorio, tablet y movil mediante CSS nativo. Se usan media queries, layouts con `grid` y `flex`, tamanos fluidos con `clamp()` y restricciones con `min()` y `calc()`.
 
-### Funcionamiento tecnico
+### Funcionamiento
 
-En escritorio, varias secciones trabajan en dos columnas, como `#about` y `.events-grid`. El titulo principal usa `clamp()` para limitar el crecimiento y decrecimiento tipografico segun el ancho de pantalla.
+En escritorio, las secciones principales mantienen composiciones amplias: el hero usa una distribucion visual centrada, `#about` se organiza en dos columnas y las tarjetas de servicios usan dos columnas internas.
 
 ### Codigo
+
+Tipografia fluida del hero:
 
 ```css
 h1 {
@@ -568,7 +701,11 @@ h1 {
   font-size: clamp(5rem, 15vw, 14rem);
   line-height: 0.9;
 }
+```
 
+Layout de escritorio para la seccion informativa:
+
+```css
 #about {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -577,7 +714,7 @@ h1 {
 }
 ```
 
-Para pantallas de hasta `1024px`, se reducen paddings, el bloque `#about` pasa a una sola columna y las tarjetas sticky de servicios se simplifican para evitar composiciones demasiado estrechas.
+A partir de `1024px`, se reducen paddings y varias composiciones pasan a una sola columna.
 
 ```css
 @media (max-width: 1024px) {
@@ -606,7 +743,7 @@ Para pantallas de hasta `1024px`, se reducen paddings, el bloque `#about` pasa a
 }
 ```
 
-Para pantallas de hasta `900px`, el menu desplegable cambia de disposicion horizontal a vertical. El ancho se limita con `min()` y `calc()` para impedir que el panel salga del viewport.
+En pantallas de hasta `900px`, el menu hamburguesa despliega los enlaces en columna para facilitar la interaccion tactil.
 
 ```css
 @media (max-width: 900px) {
@@ -622,7 +759,7 @@ Para pantallas de hasta `900px`, el menu desplegable cambia de disposicion horiz
 }
 ```
 
-En movil, hasta `640px`, el hero cambia de grid a columna, la cuadricula de eventos queda en una sola columna, las estadisticas se apilan y las tarjetas de servicios dejan de ser sticky para mejorar la lectura tactil.
+En pantallas de hasta `640px`, el hero se apila verticalmente, las tarjetas de eventos pasan a una columna y las Sticky Stack Cards dejan de usar `position: sticky` para evitar problemas de lectura en movil.
 
 ```css
 @media (max-width: 640px) {
@@ -640,7 +777,10 @@ En movil, hasta `640px`, el hero cambia de grid a columna, la cuadricula de even
     grid-template-columns: 1fr;
   }
 
-  .service-stack-card {
+  .service-stack-card,
+  .service-stack-card:nth-child(2),
+  .service-stack-card:nth-child(3),
+  .service-stack-card:nth-child(4) {
     position: relative;
     top: auto;
     padding: 1.2rem;
@@ -652,4 +792,4 @@ En movil, hasta `640px`, el hero cambia de grid a columna, la cuadricula de even
 }
 ```
 
-La estrategia responsive prioriza mantener visibles los controles principales, evitar desbordamientos horizontales y conservar la jerarquia visual de la landing en dispositivos tactiles.
+La responsividad prioriza evitar desbordamientos horizontales, conservar la jerarquia visual y mantener accesibles los controles principales en dispositivos tactiles.
